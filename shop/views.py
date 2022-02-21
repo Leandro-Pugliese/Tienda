@@ -5,7 +5,9 @@ from shop.models import *
 # Create your views here.
 
 def inicio(request):
-    return render(request, "shop/productos/inicio.html")
+    categorias = Categoria.objects.all()
+    productos = Producto.objects.all().order_by('-fecha_creacion') [0:3]
+    return render(request, "shop/productos/inicio.html", {"categorias": categorias, "productos": productos})
 
 
 

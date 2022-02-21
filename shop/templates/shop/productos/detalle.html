@@ -2,9 +2,19 @@
 {% load static %}
 
 {% block title %}
-    {% if categoria %}
-        {{categoria.nombre}}
-    {% else %}
-        Detalle Producto
-    {% endif %}
+    {{ producto.nombre }}
+{% endblock %}
+
+{% block contenido %}
+<body>
+    <div class="detalle-producto">
+        <img src="{% if producto.imagen %} {{producto.imagen.url}} {% else %} {% static 'shop/img/no_imagen' %}{% endif %}">
+        <h1>{{producto.nombre}}</h1>
+        <h2>
+            <a href="{{ producto.categoria.get_absolute_url }}">{{producto.categoria}}</a>
+        </h2>
+        <p class="precio">${{producto.precio}}</p>
+        {{producto.descripcion}}
+    </div>
+</body>
 {% endblock %}
