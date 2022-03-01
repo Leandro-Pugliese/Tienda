@@ -6,15 +6,21 @@
 {% endblock %}
 
 {% block contenido %}
-<body>
+<body class="text-center">
     <div class="detalle-producto">
-        <img src="{% if producto.imagen %} {{producto.imagen.url}} {% else %} {% static 'shop/img/no_imagen' %}{% endif %}">
+        <img src="{% if producto.imagen %} {{producto.imagen.url}} {% else %} {% static 'img/no_imagen.png' %}{% endif %}" style="width: 210px;">
+        <hr>
         <h1>{{producto.nombre}}</h1>
-        <h2>
-            <a href="{{ producto.categoria.get_absolute_url }}">{{producto.categoria}}</a>
-        </h2>
+        <hr>
+        <h4>
+            <a style="color: antiquewhite;" href="{{ producto.categoria.get_absolute_url }}">{{producto.categoria}}</a>
+        </h4>
         <p class="precio">${{producto.precio}}</p>
         {{producto.descripcion}}
+        <hr>
+        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Agregar al carrito</a></div>
+        </div>
     </div>
 </body>
 {% endblock %}

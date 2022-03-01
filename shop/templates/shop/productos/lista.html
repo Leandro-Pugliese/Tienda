@@ -9,4 +9,15 @@
     {% endif %}
 {% endblock %}
 
-
+{% block contenido%}
+<div id="sidebar">
+    <h3><u>Categorias</u></h3>
+    <ul>
+        {% for object in categorias %}
+            <li>
+                <a href="{{object.get_absolute_url}}">{{object.nombre}}</a> 
+            </li>
+        {% endfor %}
+    </ul>                   
+</div>                   
+{% endblock %}

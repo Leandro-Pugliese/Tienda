@@ -26,8 +26,9 @@ def lista_producto(request, categoria_slug=None):
     })
 
 def detalle_producto(request, id, slug):
+    
     producto = get_object_or_404(
-        producto,
+        Producto,
         id=id,
         slug=slug,
         disponibilidad=True

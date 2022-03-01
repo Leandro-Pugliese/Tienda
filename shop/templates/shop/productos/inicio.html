@@ -6,56 +6,35 @@
 {% endblock %}
 
 {% block contenido %}
-
-    <div class="col mb-5">
-        <div class="card h-100">
-            <h3>Categorias</h3>
-            <ul>
-                <li {% if not categorias %}  class="selected" {% endif %}>
-                    <a href="{% url 'shop:Lista_Productos' %}">Todos los Productos</a>
-                </li>
-                
-                {% for object in categorias %}
-                    <li>
-                        <a href="{{object.get_absolute_url}}">{{object.nombre}}</a> 
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>                   
-    </div>                   
-
-    <div class="col mb-5">
-        <div class="card h-100">
-            <h1>
-                {% if categorias %}
-                    Productos
-                {% endif %}
-            </h1>
+            
+            
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"> 
             {% for producto in productos %}
                 <div class="col mb-5">
-                    <div class="card h-100">    
-                        <img class="card-img-top" src="{% if producto.imagen %} {{producto.imagen.url}} {% else %} {% static 'img/no_imagen.png' %}{% endif %}">
-                        <br>
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <p class="fw-bolder">
-                                    <a class="btn btn-success btn-lg active" href="{{ producto.get_absolute_url }}">{{ producto.nombre }}</a>
-                                </p>        
+                            <div class="card h-100">    
+                                <img class="card-img-top" src="{% if producto.imagen %} {{producto.imagen.url}} {% else %} {% static 'img/no_imagen.png' %}{% endif %}">
                                 <br>
-                                <hr>
-                                <span class="text-success">AR$ {{ producto.precio }} </span>
-                                <hr>
-                                <br>
-                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Agregar al carrito</a></div>
+                                <div class="card-body p-4">
+                                    <div class="text-center">
+                                        <p class="fw-bolder">
+                                            <a class="btn btn-success btn-lg active" href="{{ producto.get_absolute_url }}">{{ producto.nombre }}</a>
+                                        </p>        
+                                        <br>
+                                        <hr>
+                                        <span class="text-success">AR$ {{ producto.precio }} </span>
+                                        <hr>
+                                        <br>
+                                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Agregar al carrito</a></div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
                 </div>   
             {% endfor %}
         </div>    
     </div>
-
-
+</section>            
 {% endblock %}
