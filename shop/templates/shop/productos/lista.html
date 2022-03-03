@@ -2,11 +2,7 @@
 {% load static %}
 
 {% block title %}
-    {% if categoria %}
-        {{categoria.nombre}}
-    {% else %}
-        Productos
-    {% endif %}
+   Categorias
 {% endblock %}
 
 {% block contenido%}
@@ -15,9 +11,19 @@
     <ul>
         {% for object in categorias %}
             <li>
-                <a href="{{object.get_absolute_url}}">{{object.nombre}}</a> 
+                <a href="{{object.get_absolute_url}}">{{object.nombre}}</a>
+                
             </li>
         {% endfor %}
-    </ul>                   
-</div>                   
+    </ul> 
+    <div id="main">
+        <h3>Productos</h3>
+        {% for object in productos %}
+            <a href="{{object.get_absolute_url}}">{{object.nombre}}</a>
+            <hr>
+        {% endfor%}
+    </div>                  
+</div>  
+
+
 {% endblock %}
