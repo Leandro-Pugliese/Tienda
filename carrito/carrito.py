@@ -1,0 +1,100 @@
+from decimal import Decimal
+from django.conf import settings
+from shop.models import Producto
+
+class Carrito(object):
+    def __init__(self, request):
+        
+        """
+        Inicialización del carro.
+        """
+
+        self.session = request.session
+        carrito = self.session.get(settings.CART_SESSION_ID)
+        if not carrito:
+            #salvamos el carro vacio en sesion.
+            carrito = self.session[settings.CART_SESSION_ID] = {}
+        self.carrito = carrito
+
+    
+    
+    
+    def add(self, producto, quantity=1, update_quantity=False):
+
+        """
+        Añadir un producto al carro o actualizar la cantidad.
+        """
+
+        producto_id = str(producto.id)
+        if producto_id not in self.carrito:
+            self.carrito[producto_id] = {"quantity": 0, "precio": str(producto.precio)}
+        
+        if update_quantity:
+            self.carrito[producto_id]["quantity"] = quantity
+        else:
+            self.carrito[producto_id]["quantity"] += quantity
+        
+        self.save()
+    
+    def save(self):
+        #Se marca la sesion como modificada para asegurarnos que se guarda.
+        self.session.modified = True
+
+    
+
+    def remove(self, producto):
+
+        """
+        Eliminar un producto del carro.
+        """
+
+        producto_id = str(producto.id)
+        if producto_id in self.carrito:
+            del self.carrito[producto_id]
+            self.save()
+
+
+
+    def __iter__(self):
+
+        """
+        Iterar sobre los elemntos de carro y recuperar los productos de base de datos.
+        """
+
+        producto_ids = self.carrito.keys()
+        #Con esto recuperamos los productos y los añadimos al carro.
+        productos = Producto.objects.filter(id_in = producto_ids)
+        carrito = self.carrito.copy()
+
+        for producto in productos:
+            carrito[str(producto.id)] ["producto"] = producto
+
+        for item in carrito.values():
+            item ["precio"] = Decimal(item["precio"])
+            item ["precio_total"] = item["precio"] * item["quantity"]
+            yield item
+
+        
+
+    
+    def __len__(self):
+        
+        """
+        Contar todos los elementos del carro.
+        """
+
+        return sum(item["quantity"] for item in self.carrito.values())
+
+
+
+    def get_total_price(self):
+        return sum(Decimal(item["precio"]) * item["quantity"] for item in self.carrito.values())
+
+
+
+    def clear(self):
+        #Es para eliminar el carro de la sesion.
+        del self.session[settings.CART_SESSION_ID]
+        self.save()
+
+    
