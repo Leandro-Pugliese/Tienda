@@ -30,7 +30,7 @@ def carrito_detalle(request):
     
     for item in carrito:
         item["update_quantity_form"]= CarritoAddProducto(
-            initial={"quantity": item["quantity"], "update": True}
+            initial={"cantidad": item["quantity"], "update": True}
         )
     
     return render(request, "carrito/detalle.html", {"carrito": carrito})

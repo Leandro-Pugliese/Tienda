@@ -91,7 +91,8 @@ class Carrito(object):
     def get_total_price(self):
         return sum(Decimal(item["precio"]) * item["quantity"] for item in self.carrito.values())
 
-
+    def get_total_item(self):
+        return sum(item["quantity"] for item in self.carrito.values())
 
     def clear(self):
         #Es para eliminar el carro de la sesion.

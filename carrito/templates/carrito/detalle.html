@@ -29,7 +29,14 @@
                         </a>
                     </td>
                     <td> {{ item.producto.nombre }} </td>
-                    <td> {{ item.quantity }} </td>
+                    <td>
+                        <form action="{% url 'carrito:carrito_add' item.producto.id %}" method="post">
+                            {{ item.update_quantity_form.cantidad }}
+                            {{ item.update_quantity_form.update }}
+                            <input type="submit" value="Modificar">
+                            {% csrf_token %}
+                        </form>
+                    </td>
                     <td class="num">$ {{ item.precio }} </td>
                     <td class="num">$ {{ item.precio_total }} </td>
                     <td> <a href="{% url 'carrito:carrito_remove' item.producto.id %}">Quitar</a> </td>
@@ -37,14 +44,16 @@
                 {% endwith %}
             {% endfor %}
             <tr class="total">
-                <td>Total</td>
+                <td>Total:</td>
                 <td colspan="4"></td>
                 <td class="num">$ {{ carrito.get_total_price }}</td>
             </tr>    
         </tbody>
     </table>
+    <br>
     <p class="text-right">
         <a href="{% url 'shop:Lista_Productos' %}" class="button light">Continuar Comprando</a>
+        //
         <a href="#" class="button">Verificar Carrito</a>
     </p>
 
