@@ -2,6 +2,7 @@ from decimal import Decimal
 from django.conf import settings
 from shop.models import Producto
 
+
 class Carrito(object):
     def __init__(self, request):
         
@@ -63,7 +64,7 @@ class Carrito(object):
 
         producto_ids = self.carrito.keys()
         #Con esto recuperamos los productos y los añadimos al carro.
-        productos = Producto.objects.filter(id_in = producto_ids)
+        productos = Producto.objects.filter(id__in = producto_ids)
         carrito = self.carrito.copy()
 
         for producto in productos:

@@ -19,11 +19,17 @@
                         <a style="color: antiquewhite;" href="{{ producto.categoria.get_absolute_url }}">{{producto.categoria}}</a>
                     </h4>
                     <p class="precio">${{producto.precio}}</p>
+                    <form action="{% url 'carrito:carrito_add' producto.id %}" method="post">
+                        {{ carrito_form }} <br><br>
+                        {% csrf_token %}
+                        <input type="submit" value="Agregar al Carrito">
+                    </form>
+                    <br>
                     {{producto.descripcion}}
                     <hr>
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                    <!-- <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                         <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Agregar al carrito</a></div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

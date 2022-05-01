@@ -1,0 +1,52 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+{% block title %}
+    Carrito
+{% endblock %}
+
+{% block contenido %}
+<Body style="text-align: center;">
+    <h2 style="color: chartreuse;">Tu Carrito</h2>
+    <table class="carrito">
+        <thead>
+            <tr>
+                <th>Imagen</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Precio Total</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in carrito %}
+                {% with Producto=item.producto %}
+                <tr>
+                    <td>
+                        <a href="{{ producto.get_absolute_url }}">
+                            <img src="{% if item.producto.imagen %} {{item.producto.imagen.url}} {% else %} {% static 'img/no_imagen.png' %}{% endif %}" style="width: 210px;">  
+                        </a>
+                    </td>
+                    <td> {{ item.producto.nombre }} </td>
+                    <td> {{ item.quantity }} </td>
+                    <td class="num">$ {{ item.precio }} </td>
+                    <td class="num">$ {{ item.precio_total }} </td>
+                    <td> <a href="{% url 'carrito:carrito_remove' item.producto.id %}">Quitar</a> </td>
+                </tr>
+                {% endwith %}
+            {% endfor %}
+            <tr class="total">
+                <td>Total</td>
+                <td colspan="4"></td>
+                <td class="num">$ {{ carrito.get_total_price }}</td>
+            </tr>    
+        </tbody>
+    </table>
+    <p class="text-right">
+        <a href="{% url 'shop:Lista_Productos' %}" class="button light">Continuar Comprando</a>
+        <a href="#" class="button">Verificar Carrito</a>
+    </p>
+
+</Body>
+{% endblock %}
